@@ -4,7 +4,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 const isProtectedRoute = createRouteMatcher([
   "/", // Assuming "/" is a protected route
   // "!/sign-in(.*)", // Exclude /sign-in and its children
-  // "!/api/uploadthing(.*)", // Exclude /api/uploadthing and its children
+  "!/api/uploadthing(.*)", // Exclude /api/uploadthing and its children
   // "!/sign-in",
   // "!/sign-up",
 
@@ -13,7 +13,7 @@ const isProtectedRoute = createRouteMatcher([
 
 // Update clerkMiddleware to manually protect routes
 export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) {
+  if (isProtectedRoute(req) && req.url !== "/api/uploadthing") {
     auth().protect(); // Manually protect routes
   }
 });
